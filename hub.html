@@ -1,501 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>New Tab</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>James Brown – Game Hub</title>
+
 <style>
-/* =========================
-   THEME — James Brown Edition
-   ========================= */
 :root{
-  --bg:#0e0f13;
-  --panel:#151823;
-  --panel-2:#1c2030;
-  --accent:#caa24d; /* gold */
-  --accent-2:#6b4eff;
-  --text:#eef1f7;
-  --muted:#9aa3b2;
-  --danger:#ff5c5c;
-  --radius:16px;
-  --shadow:0 20px 50px rgba(0,0,0,.45);
+  --bg:#0b0d10;
+  --panel:#12151b;
+  --accent:#d4af37;
+  --text:#eaeaea;
+  --muted:#8b8f98;
 }
 
-*{box-sizing:border-box}
-html,body{
+*{box-sizing:border-box;font-family:system-ui,Segoe UI,Roboto,Arial}
+
+body{
   margin:0;
-  height:100%;
-  background:
-    radial-gradient(1200px 600px at 50% -20%, #2a2f52, var(--bg));
+  background:var(--bg);
   color:var(--text);
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,sans-serif;
+  display:flex;
+  height:100vh;
   overflow:hidden;
 }
 
-/* =========================
-   LOCK / PASSWORD
-   ========================= */
-#lock{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:50;
-}
-#lockCard{
-  width:min(92%,420px);
-  background:linear-gradient(180deg,var(--panel),#11131b);
-  border-radius:var(--radius);
-  padding:28px;
-  box-shadow:var(--shadow);
-  animation:fadeIn .35s ease;
-}
-#lockCard h1{
-  margin:0 0 6px;
-  font-size:22px;
-  letter-spacing:.3px;
-}
-#lockCard p{
-  margin:0 0 18px;
-  color:var(--muted);
-  font-size:14px;
-}
-#lockCard input{
-  width:100%;
-  padding:14px 16px;
-  border-radius:12px;
-  border:1px solid #24284a;
-  background:var(--panel-2);
-  color:var(--text);
-  outline:none;
-  font-size:15px;
-}
-#lockCard button{
-  margin-top:14px;
-  width:100%;
-  padding:14px;
-  border-radius:999px;
-  border:none;
-  background:linear-gradient(135deg,var(--accent),#ffd77a);
-  color:#1a1a1a;
-  font-weight:700;
-  cursor:pointer;
-}
-#lockCard.shake{animation:shake .35s}
-#lockError{
-  margin-top:10px;
-  min-height:16px;
-  color:var(--danger);
-  font-size:13px;
-}
-
-@keyframes fadeIn{
-  from{opacity:0;transform:scale(.96)}
-  to{opacity:1;transform:scale(1)}
-}
-@keyframes shake{
-  0%{transform:translateX(0)}
-  25%{transform:translateX(-6px)}
-  50%{transform:translateX(6px)}
-  75%{transform:translateX(-4px)}
-  100%{transform:translateX(0)}
-}
-
-/* =========================
-   APP LAYOUT
-   ========================= */
-#app{
-  display:flex;
-  height:100%;
-  width:100%;
-}
-.hidden{display:none}
-
-/* Sidebar */
+/* SIDEBAR */
 #sidebar{
   width:260px;
-  background:linear-gradient(180deg,var(--panel),#0f1119);
-  border-right:1px solid #1f2340;
-  padding:18px;
+  background:var(--panel);
+  padding:20px;
   display:flex;
   flex-direction:column;
   gap:16px;
 }
+
 #brand{
-  padding:10px 12px;
-  border-radius:12px;
-  background:linear-gradient(135deg,#1b1f36,#11142a);
-}
-#brand h2{
-  margin:0;
-  font-size:16px;
-  letter-spacing:.5px;
-}
-#brand span{
-  display:block;
-  font-size:11px;
-  color:var(--muted);
-  margin-top:4px;
+  font-size:22px;
+  font-weight:700;
+  color:var(--accent);
 }
 
 #search{
-  padding:12px 14px;
-  border-radius:12px;
-  border:1px solid #24284a;
-  background:var(--panel-2);
-  color:var(--text);
+  padding:10px;
+  border-radius:8px;
+  border:none;
   outline:none;
+  background:#1a1f27;
+  color:var(--text);
 }
 
-#meta{
-  margin-top:auto;
-  font-size:11px;
+#count{
+  font-size:12px;
   color:var(--muted);
-  line-height:1.6;
 }
 
-/* Main */
+/* MAIN */
 #main{
   flex:1;
-  padding:22px;
-  overflow:auto;
-}
-#header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:18px;
-}
-#header h1{
-  margin:0;
-  font-size:22px;
-}
-#header span{
-  font-size:12px;
-  color:var(--muted);
-}
-
-/* Grid */
-#grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
-  gap:18px;
-}
-.card{
-  position:relative;
-  background:linear-gradient(180deg,var(--panel),#101322);
-  border-radius:var(--radius);
-  padding:14px;
   display:flex;
   flex-direction:column;
-  gap:10px;
-  transition:transform .18s ease, box-shadow .18s ease;
-}
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 18px 40px rgba(0,0,0,.5);
-}
-.thumb{
-  height:110px;
-  border-radius:12px;
-  background:linear-gradient(135deg,#23285a,#14183a);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-  color:var(--muted);
-}
-.card h3{
-  margin:0;
-  font-size:15px;
-}
-.card button{
-  margin-top:auto;
-  padding:10px;
-  border-radius:10px;
-  border:none;
-  background:linear-gradient(135deg,var(--accent-2),#8a74ff);
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
-}
-.badge{
-  position:absolute;
-  top:10px;
-  right:10px;
-  background:linear-gradient(135deg,var(--accent),#ffd77a);
-  color:#1a1a1a;
-  font-size:10px;
-  padding:4px 7px;
-  border-radius:999px;
-  font-weight:700;
 }
 
-/* Player */
+/* GRID */
+#grid{
+  padding:20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:16px;
+  overflow:auto;
+}
+
+.game{
+  background:#151923;
+  border-radius:12px;
+  padding:18px;
+  text-align:center;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.game:hover{
+  transform:translateY(-4px);
+  background:#1b2130;
+}
+
+.game span{
+  display:block;
+  font-weight:600;
+}
+
+/* PLAYER */
 #player{
   position:fixed;
   inset:0;
   background:#000;
   display:none;
   flex-direction:column;
-  z-index:40;
+  z-index:50;
 }
+
 #playerBar{
-  height:48px;
-  background:linear-gradient(180deg,var(--panel),#0f1119);
+  background:#111;
+  padding:10px;
+  display:flex;
+  gap:10px;
+}
+
+#playerBar button{
+  padding:8px 14px;
+  border:none;
+  border-radius:6px;
+  background:var(--accent);
+  cursor:pointer;
+  font-weight:600;
+}
+
+#gameFrame{
+  flex:1;
+  border:none;
+}
+
+/* PASSWORD */
+#lock{
+  position:fixed;
+  inset:0;
+  background:var(--bg);
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:0 12px;
+  justify-content:center;
+  z-index:100;
 }
-#playerBar button{
-  padding:8px 12px;
-  border-radius:8px;
+
+#lockBox{
+  background:var(--panel);
+  padding:30px;
+  border-radius:14px;
+  width:300px;
+  text-align:center;
+}
+
+#lockBox input{
+  width:100%;
+  padding:12px;
+  margin-top:12px;
   border:none;
-  background:var(--panel-2);
+  border-radius:8px;
+  background:#1a1f27;
   color:var(--text);
+}
+
+#lockBox button{
+  margin-top:12px;
+  padding:10px;
+  width:100%;
+  border:none;
+  border-radius:8px;
+  background:var(--accent);
+  font-weight:700;
   cursor:pointer;
 }
-#frameWrap{
-  flex:1;
-}
-#frameWrap iframe{
-  width:100%;
-  height:100%;
-  border:none;
-  background:#000;
+
+.shake{
+  animation:shake .4s;
 }
 
-/* Toast */
-#toast{
-  position:fixed;
-  bottom:22px;
-  right:22px;
-  background:linear-gradient(180deg,var(--panel),#0f1119);
-  padding:14px 18px;
-  border-radius:12px;
-  box-shadow:var(--shadow);
-  opacity:0;
-  transform:translateY(10px);
-  transition:.25s ease;
-  font-size:14px;
-}
-#toast.show{
-  opacity:1;
-  transform:translateY(0);
-}
-
-/* Mobile */
-@media(max-width:820px){
-  #sidebar{display:none}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  50%{transform:translateX(6px)}
+  75%{transform:translateX(-6px)}
 }
 </style>
 </head>
+
 <body>
 
-<!-- =========================
-     PASSWORD LOCK
-     ========================= -->
+<!-- PASSWORD -->
 <div id="lock">
-  <div id="lockCard">
-    <h1>Private Library</h1>
-    <p>Authorized access only</p>
-    <input id="pw" type="password" placeholder="Password">
-    <button id="unlock">Unlock</button>
-    <div id="lockError"></div>
+  <div id="lockBox">
+    <h2>Enter Access Code</h2>
+    <input id="pw" type="password" placeholder="Password"/>
+    <button onclick="unlock()">Enter</button>
   </div>
 </div>
 
-<!-- =========================
-     APP
-     ========================= -->
-<div id="app" class="hidden">
-  <aside id="sidebar">
-    <div id="brand">
-      <h2>James Brown</h2>
-      <span>Private Game Archive</span>
-    </div>
-    <input id="search" placeholder="Search games">
-    <div id="meta">
-      © <span id="year"></span> James Brown.<br>
-      All rights reserved.<br><br>
-      This site and its contents are privately maintained.  
-      Unauthorized distribution, reproduction, or misuse is prohibited.
-    </div>
-  </aside>
-
-  <main id="main">
-    <div id="header">
-      <h1>Game Library</h1>
-      <span>Curated & maintained by James Brown</span>
-    </div>
-    <div id="grid"></div>
-  </main>
+<!-- SIDEBAR -->
+<div id="sidebar">
+  <div id="brand">James Brown</div>
+  <input id="search" placeholder="Search games…" />
+  <div id="count"></div>
+  <div style="margin-top:auto;font-size:12px;color:var(--muted);">
+    © James Brown
+  </div>
 </div>
 
-<!-- =========================
-     PLAYER
-     ========================= -->
+<!-- MAIN -->
+<div id="main">
+  <div id="grid"></div>
+</div>
+
+<!-- PLAYER -->
 <div id="player">
   <div id="playerBar">
-    <button id="back">← Library</button>
-    <button id="fs">Fullscreen</button>
+    <button onclick="closeGame()">Close</button>
+    <button onclick="fullscreen()">Fullscreen</button>
   </div>
-  <div id="frameWrap"></div>
+  <iframe id="gameFrame"></iframe>
 </div>
 
-<div id="toast">New game added</div>
+<script src="games.js"></script>
 
 <script>
-/* =========================
-   BASIC HARDENING (best‑effort)
-   ========================= */
-document.addEventListener("contextmenu",e=>e.preventDefault());
-document.addEventListener("keydown",e=>{
-  if(
-    e.key==="F12" ||
-    (e.ctrlKey && e.shiftKey && ["I","C","J"].includes(e.key)) ||
-    (e.ctrlKey && e.key==="U")
-  ){ e.preventDefault(); }
-});
-
-/* =========================
-   PASSWORD
-   ========================= */
-const PASSWORD = "kingjames22";
-const lock = document.getElementById("lock");
-const app  = document.getElementById("app");
-const card = document.getElementById("lockCard");
-const err  = document.getElementById("lockError");
-
-if(sessionStorage.jbUnlocked){
-  lock.remove();
-  app.classList.remove("hidden");
-}
-
-document.getElementById("unlock").onclick = () => {
-  if(document.getElementById("pw").value === PASSWORD){
-    sessionStorage.jbUnlocked = 1;
-    lock.style.opacity = 0;
-    setTimeout(()=>{
-      lock.remove();
-      app.classList.remove("hidden");
-    },250);
+/* PASSWORD */
+function unlock(){
+  const box=document.getElementById("lockBox");
+  if(document.getElementById("pw").value==="kingjames22"){
+    document.getElementById("lock").style.display="none";
   }else{
-    err.textContent = "Incorrect password";
-    card.classList.remove("shake");
-    void card.offsetWidth;
-    card.classList.add("shake");
+    box.classList.remove("shake");
+    void box.offsetWidth;
+    box.classList.add("shake");
   }
-};
-
-/* =========================
-   GAME CONFIG
-   HOW TO ADD GAMES:
-   1. Paste full HTML into html field
-   2. Give unique id
-   3. Title shows in library
-   ========================= */
-const games = [
-  /*
-  {
-    id: "example-game",
-    title: "Example Game",
-    html: "<!DOCTYPE html><html>...</html>"
-  }
-  */
-];
-
-/* =========================
-   GAME RENDERING
-   ========================= */
-const grid = document.getElementById("grid");
-const seen = JSON.parse(localStorage.jbSeenGames || "[]");
-let newDetected = false;
-
-games.forEach(g=>{
-  const card = document.createElement("div");
-  card.className = "card";
-
-  if(!seen.includes(g.id)){
-    const b = document.createElement("div");
-    b.className = "badge";
-    b.textContent = "NEW";
-    card.appendChild(b);
-    newDetected = true;
-  }
-
-  card.innerHTML += `
-    <div class="thumb">Game</div>
-    <h3>${g.title}</h3>
-    <button>Play</button>
-  `;
-
-  card.querySelector("button").onclick = ()=>{
-    openGame(g);
-    if(!seen.includes(g.id)){
-      seen.push(g.id);
-      localStorage.jbSeenGames = JSON.stringify(seen);
-      card.querySelector(".badge")?.remove();
-    }
-  };
-
-  grid.appendChild(card);
-});
-
-if(newDetected){
-  const t = document.getElementById("toast");
-  t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),2400);
 }
 
-/* =========================
-   SEARCH
-   ========================= */
-document.getElementById("search").oninput = e=>{
-  const q = e.target.value.toLowerCase();
-  [...grid.children].forEach(c=>{
-    c.style.display =
-      c.querySelector("h3").textContent.toLowerCase().includes(q)
-      ? "" : "none";
+/* BUILD GRID */
+const grid=document.getElementById("grid");
+const count=document.getElementById("count");
+
+function render(list){
+  grid.innerHTML="";
+  list.forEach(g=>{
+    const d=document.createElement("div");
+    d.className="game";
+    d.innerHTML=`<span>${g.title}</span>`;
+    d.onclick=()=>openGame(g);
+    grid.appendChild(d);
   });
-};
-
-/* =========================
-   PLAYER
-   ========================= */
-const player = document.getElementById("player");
-const frameWrap = document.getElementById("frameWrap");
-
-function openGame(g){
-  player.style.display = "flex";
-  app.style.display = "none";
-  frameWrap.innerHTML = "";
-  const iframe = document.createElement("iframe");
-  iframe.srcdoc = g.html;
-  frameWrap.appendChild(iframe);
+  count.textContent=`${list.length} games`;
 }
 
-document.getElementById("back").onclick = ()=>{
-  player.style.display = "none";
-  app.style.display = "";
-  frameWrap.innerHTML = "";
+render(games);
+
+/* SEARCH */
+document.getElementById("search").oninput=e=>{
+  const q=e.target.value.toLowerCase();
+  render(games.filter(g=>g.title.toLowerCase().includes(q)));
 };
 
-document.getElementById("fs").onclick = ()=>{
-  if(!document.fullscreenElement){
-    frameWrap.requestFullscreen();
-  }else{
-    document.exitFullscreen();
-  }
-};
+/* PLAYER */
+function openGame(game){
+  const iframe=document.getElementById("gameFrame");
+  iframe.src=`html/${game.file}`; // LOCAL
+  // iframe.src=`https://cdn.jsdelivr.net/gh/jamesbrownedu/homework-assets/html/${game.file}`;
+  document.getElementById("player").style.display="flex";
+}
 
-/* =========================
-   MISC
-   ========================= */
-document.getElementById("year").textContent = new Date().getFullYear();
+function closeGame(){
+  const iframe=document.getElementById("gameFrame");
+  iframe.src="";
+  document.getElementById("player").style.display="none";
+}
+
+function fullscreen(){
+  document.getElementById("gameFrame").requestFullscreen();
+}
 </script>
 
 </body>
