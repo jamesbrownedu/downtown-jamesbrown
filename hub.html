@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>New Tab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #151922;
+    --panel-2: #1c2130;
+    --accent: #4f7cff;
+    --text: #e6e9f0;
+    --muted: #9aa3b2;
+    --danger: #ff4f4f;
+    --radius: 14px;
+    --shadow: 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background: radial-gradient(1200px 600px at 50% -20%, #1b2140, var(--bg));
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  button {
+    all: unset;
+    cursor: pointer;
+    background: var(--accent);
+    color: white;
+    padding: 16px 28px;
+    border-radius: 999px;
+    font-weight: 600;
+    box-shadow: var(--shadow);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  button:hover { transform: translateY(-2px); }
+  button:active { transform: translateY(0); box-shadow: 0 5px 15px rgba(0,0,0,.4); }
+</style>
+</head>
+<body>
+
+<button id="launch">Open</button>
+
+<script>
+document.getElementById("launch").onclick = () => {
+  const w = window.open("about:blank", "_blank");
+  if (!w) return;
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>New Tab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root{
+  --bg:#0f1115;
+  --panel:#151922;
+  --panel2:#1c2130;
+  --accent:#4f7cff;
+  --text:#e6e9f0;
+  --muted:#9aa3b2;
+  --danger:#ff4f4f;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden}
+.hidden{display:none}
+
+#lock{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(900px 500px at 50% -20%,#1b2140,var(--bg));
+  z-index:10;
+}
+#lockCard{
+  background:var(--panel);
+  padding:32px;
+  border-radius:var(--radius);
+  width:min(90%,380px);
+  box-shadow:0 20px 50px rgba(0,0,0,.5);
+  text-align:center;
+  animation:fadeIn .4s ease;
+}
+#lockCard h1{margin:0 0 10px;font-size:22px}
+#lockCard p{margin:0 0 20px;color:var(--muted);font-size:14px}
+#lockCard input{
+  width:100%;
+  padding:14px 16px;
+  border-radius:10px;
+  border:none;
+  outline:none;
+  background:var(--panel2);
+  color:var(--text);
+  font-size:15px;
+}
+#lockCard button{
+  margin-top:16px;
+  width:100%;
+  padding:14px;
+  border-radius:999px;
+  border:none;
+  background:var(--accent);
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+#lockCard.shake{animation:shake .35s}
+#error{color:var(--danger);font-size:13px;margin-top:10px;min-height:16px}
+
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  50%{transform:translateX(6px)}
+  75%{transform:translateX(-4px)}
+  100%{transform:translateX(0)}
+}
+@keyframes fadeIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+
+#app{display:flex;height:100%;width:100%}
+#sidebar{
+  width:240px;
+  background:var(--panel);
+  display:flex;
+  flex-direction:column;
+  padding:18px;
+  gap:16px;
+}
+#brand{
+  height:40px;
+}
+#search{
+  background:var(--panel2);
+  border:none;
+  border-radius:10px;
+  padding:10px 12px;
+  color:var(--text);
+  outline:none;
+}
+#soundToggle{
+  margin-top:auto;
+  font-size:13px;
+  color:var(--muted);
+  cursor:pointer;
+}
+
+#main{
+  flex:1;
+  padding:24px;
+  overflow:auto;
+}
+
+#grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:18px;
+}
+
+.card{
+  background:var(--panel);
+  border-radius:var(--radius);
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  transition:transform .15s, box-shadow .15s;
+  position:relative;
+}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.45)}
+.thumb{
+  background:var(--panel2);
+  border-radius:10px;
+  height:110px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted);
+  font-size:12px;
+}
+.card h3{margin:0;font-size:15px}
+.card button{
+  margin-top:auto;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  background:var(--accent);
+  color:#fff;
+  cursor:pointer;
+  font-weight:600;
+}
+.badge{
+  position:absolute;
+  top:10px;right:10px;
+  background:var(--accent);
+  color:#fff;
+  font-size:10px;
+  padding:4px 7px;
+  border-radius:999px;
+}
+
+#player{
+  position:absolute;
+  inset:0;
+  background:var(--bg);
+  display:none;
+  flex-direction:column;
+}
+#playerBar{
+  height:48px;
+  background:var(--panel);
+  display:flex;
+  align-items:center;
+  padding:0 12px;
+  gap:10px;
+}
+#playerBar button{
+  background:var(--panel2);
+  color:var(--text);
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+}
+#frameWrap{flex:1}
+#frameWrap iframe{
+  width:100%;
+  height:100%;
+  border:none;
+  background:#000;
+}
+
+#toast{
+  position:fixed;
+  bottom:24px;right:24px;
+  background:var(--panel);
+  padding:14px 18px;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+  opacity:0;
+  transform:translateY(10px);
+  transition:.3s;
+}
+#toast.show{opacity:1;transform:translateY(0)}
+
+@media(max-width:800px){
+  #sidebar{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="lock">
+  <div id="lockCard">
+    <h1>Enter Password</h1>
+    <p>Restricted access</p>
+    <input id="pw" type="password" placeholder="Password">
+    <button id="unlock">Unlock</button>
+    <div id="error"></div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <div id="sidebar">
+    <div id="brand"></div>
+    <input id="search" placeholder="Search games">
+    <div id="soundToggle">Sound: ON</div>
+  </div>
+  <div id="main">
+    <div id="grid"></div>
+  </div>
+</div>
+
+<div id="player">
+  <div id="playerBar">
+    <button id="closeGame">← Back</button>
+    <button id="fs">Fullscreen</button>
+  </div>
+  <div id="frameWrap"></div>
+</div>
+
+<div id="toast">New game added</div>
+
+<script>
+/* SECURITY (best-effort) */
+document.addEventListener("contextmenu",e=>e.preventDefault());
+document.addEventListener("keydown",e=>{
+  if(
+    e.key==="F12"||
+    (e.ctrlKey&&e.shiftKey&&["I","C","J"].includes(e.key))||
+    (e.ctrlKey&&e.key==="U")
+  ){e.preventDefault()}
+});
+
+/* PASSWORD */
+const PASSWORD="kingjames22";
+const lock=document.getElementById("lock");
+const app=document.getElementById("app");
+const card=document.getElementById("lockCard");
+const error=document.getElementById("error");
+
+if(sessionStorage.unlocked){
+  lock.remove();
+  app.classList.remove("hidden");
+}
+
+document.getElementById("unlock").onclick=()=>{
+  const v=document.getElementById("pw").value;
+  if(v===PASSWORD){
+    sessionStorage.unlocked=1;
+    lock.style.opacity=0;
+    setTimeout(()=>{lock.remove();app.classList.remove("hidden")},300);
+  }else{
+    error.textContent="Incorrect password";
+    card.classList.remove("shake");
+    void card.offsetWidth;
+    card.classList.add("shake");
+  }
+};
+
+/* SOUND */
+let soundOn=true;
+let ctx;
+function clickSound(){
+  if(!soundOn)return;
+  if(!ctx)ctx=new AudioContext();
+  const o=ctx.createOscillator();
+  const g=ctx.createGain();
+  o.connect(g);g.connect(ctx.destination);
+  o.frequency.value=600;
+  g.gain.value=0.05;
+  o.start();
+  o.stop(ctx.currentTime+0.05);
+}
+document.getElementById("soundToggle").onclick=()=>{
+  soundOn=!soundOn;
+  document.getElementById("soundToggle").textContent="Sound: "+(soundOn?"ON":"OFF");
+};
+
+/* GAMES CONFIG
+Add games by pushing objects here.
+Each game.html should be a FULL HTML STRING.
+*/
+const games=[
+  /*
+  {
+    id:"example",
+    title:"Example Game",
+    html:"<!DOCTYPE html><html>...</html>"
+  }
+  */
+];
+
+const grid=document.getElementById("grid");
+const seen=JSON.parse(localStorage.seenGames||"[]");
+let newFound=false;
+
+games.forEach(g=>{
+  const card=document.createElement("div");
+  card.className="card";
+  if(!seen.includes(g.id)){
+    const b=document.createElement("div");
+    b.className="badge";
+    b.textContent="NEW";
+    card.appendChild(b);
+    newFound=true;
+  }
+  card.innerHTML+=\`
+    <div class="thumb">Game</div>
+    <h3>\${g.title}</h3>
+    <button>Play</button>
+  \`;
+  card.querySelector("button").onclick=()=>{
+    clickSound();
+    openGame(g);
+    if(!seen.includes(g.id)){
+      seen.push(g.id);
+      localStorage.seenGames=JSON.stringify(seen);
+      card.querySelector(".badge")?.remove();
+    }
+  };
+  grid.appendChild(card);
+});
+
+if(newFound){
+  const t=document.getElementById("toast");
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2500);
+}
+
+/* SEARCH */
+document.getElementById("search").oninput=e=>{
+  const q=e.target.value.toLowerCase();
+  [...grid.children].forEach(c=>{
+    c.style.display=c.querySelector("h3").textContent.toLowerCase().includes(q)?"":"none";
+  });
+};
+
+/* PLAYER */
+const player=document.getElementById("player");
+const frameWrap=document.getElementById("frameWrap");
+
+function openGame(g){
+  player.style.display="flex";
+  app.style.display="none";
+  frameWrap.innerHTML="";
+  const iframe=document.createElement("iframe");
+  iframe.srcdoc=g.html;
+  frameWrap.appendChild(iframe);
+}
+
+document.getElementById("closeGame").onclick=()=>{
+  player.style.display="none";
+  app.style.display="";
+  frameWrap.innerHTML="";
+};
+
+document.getElementById("fs").onclick=()=>{
+  const el=frameWrap;
+  if(!document.fullscreenElement){
+    el.requestFullscreen();
+  }else{
+    document.exitFullscreen();
+  }
+};
+</script>
+</body>
+</html>`;
+
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+};
+</script>
+
+</body>
+</html>
